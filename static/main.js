@@ -24,7 +24,7 @@ function init (){
 }
 
 var ws = new WebSocket("wss://hijackingprevention.com/demo/console");
-ws.onmessage = function (evt) {
-   document.getElementById("target" + counter).innerHTML +=
+ws.onmessage = function (e) {
+   document.getElementById("target" + counter).innerHTML += e.data;
 };
 init();
