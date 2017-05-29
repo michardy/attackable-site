@@ -34,8 +34,8 @@ class Login(tornado.web.RequestHandler):
         passw = self.get_argument('password')
         if uname in db['users']:
             cookie = self.get_cookie('sid')
-            data = b'{"sid":"'+cookie+'", "uid":"'+uname+'", "ak":"LYOEaNy-oOWKK9W8Y-X2YwSdS386qcbNWrA-j2qF3gXzxIQj6d6f6V69U4oU_um-bH7151ofY1CsQKoADM5CyQ=="}'
-            with request.urlopen('https://hijackingprevention.com/api/reg_usr', data=data) as r:
+            data = b'{"sid":"'+cookie.encode('ascii')+b'", "uid":"'+uname.encode('utf-8')+b'", "ak":"LYOEaNy-oOWKK9W8Y-X2YwSdS386qcbNWrA-j2qF3gXzxIQj6d6f6V69U4oU_um-bH7151ofY1CsQKoADM5CyQ=="}'
+            with request.urlopen('https://hijackingprevention.com/api/get_trust', data=data) as r:
                 try:
                     auth = (int(r.read()) > 0.5)
                 except ValueError:
@@ -62,7 +62,7 @@ class Signup(tornado.web.RequestHandler):
             'passw': hashlib.md5(self.get_argument('password').encode('utf-8')).hexdigest()
         }
         cookie = self.get_cookie('sid')
-        data = b'{"sid":"'+cookie+'", "uid":"'+uname+'", "ak":"LYOEaNy-oOWKK9W8Y-X2YwSdS386qcbNWrA-j2qF3gXzxIQj6d6f6V69U4oU_um-bH7151ofY1CsQKoADM5CyQ=="}'
+        data = b'{"sid":"'+cookie.encode('ascii')+b'", "uid":"'+uname.encode('utf-8')+b'", "ak":"LYOEaNy-oOWKK9W8Y-X2YwSdS386qcbNWrA-j2qF3gXzxIQj6d6f6V69U4oU_um-bH7151ofY1CsQKoADM5CyQ=="}'
         with request.urlopen('https://hijackingprevention.com/api/reg_usr', data=data) as r:
             print(r.read())
         self.set_cookie('uid', uname+':'+hashlib.md5(uname.encode('utf-8')).hexdigest())
@@ -88,8 +88,8 @@ class Post(tornado.web.RequestHandler):
         db = self.settings['db']
         cookie = self.get_cookie('uid').split(':')
         sid = self.get_cookie('sid')
-        data = b'{"sid":"'+sid+'", "uid":"'+uname+'", "ak":"LYOEaNy-oOWKK9W8Y-X2YwSdS386qcbNWrA-j2qF3gXzxIQj6d6f6V69U4oU_um-bH7151ofY1CsQKoADM5CyQ=="}'
-        with request.urlopen('https://hijackingprevention.com/api/reg_usr', data=data) as r:
+        data = b'{"sid":"'+sid.encode('ascii')+b'", "uid":"'+cookie[0].encode('utf-8')+b'", "ak":"LYOEaNy-oOWKK9W8Y-X2YwSdS386qcbNWrA-j2qF3gXzxIQj6d6f6V69U4oU_um-bH7151ofY1CsQKoADM5CyQ=="}'
+        with request.urlopen('https://hijackingprevention.com/api/get_trust', data=data) as r:
             try:
                 auth = (int(r.read()) > 0.5)
             except ValueError:
