@@ -149,7 +149,14 @@ class ConsoleWebSocket(tornado.websocket.WebSocketHandler):
         ConsoleSession.connections.add(self)
 
     def on_message(self, message):
-        self.write_message(u"You said: " + message)
+		db = self.settings['db']
+        if message.startswith('reset'):
+			if message.endswith('users'):
+				db['users'] = {}
+			elif message.endswith('posts'):
+				db['posts'] = []
+		elif message.startswith('security'):
+			harden = message.endswith('on')
 
     def on_close(self):
         ConsoleSession.connections.remove(self)
