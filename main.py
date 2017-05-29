@@ -68,7 +68,7 @@ class Signup(tornado.web.RequestHandler):
         cookie = self.get_cookie('sid')
         data = b'{"sid":"'+cookie.encode('ascii')+b'", "uid":"'+uname.encode('utf-8')+b'", "ak":"LYOEaNy-oOWKK9W8Y-X2YwSdS386qcbNWrA-j2qF3gXzxIQj6d6f6V69U4oU_um-bH7151ofY1CsQKoADM5CyQ=="}'
         with request.urlopen('https://hijackingprevention.com/api/reg_usr', data=data) as r:
-            print(r.read())
+            r.read()
         self.set_cookie('uid', uname+':'+hashlib.md5(uname.encode('utf-8')).hexdigest())
         self.redirect("/demo/post")
 
