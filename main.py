@@ -149,14 +149,20 @@ class ConsoleWebSocket(tornado.websocket.WebSocketHandler):
         ConsoleSession.connections.add(self)
 
     def on_message(self, message):
-		db = self.settings['db']
+        db = self.settings['db']
         if message.startswith('reset'):
-			if message.endswith('users'):
-				db['users'] = {}
-			elif message.endswith('posts'):
-				db['posts'] = []
-		elif message.startswith('security'):
-			harden = message.endswith('on')
+            if message.endswith('users'):
+                db['users'] = {}
+                self.write_message('Users wiped<br/>')
+            elif message.endswith('posts'):
+                db['posts'] = []
+                self.write_message('Posts Wiped<br/>')
+        elif message.startswith('security'):
+            db['harden'] = message.endswith('on')
+            self.write_message('Security hardening enabled: %s<br/>', str(db['harden']))
+        elif message.startswith('list'):
+            for u in db['users']:
+                self.write_message(u + ' : ' + db['users'][u][passw])
 
     def on_close(self):
         ConsoleSession.connections.remove(self)
