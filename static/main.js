@@ -1,7 +1,7 @@
 var counter = 0;
 con = document.getElementById("console");
 
-var ws = new WebSocket("ws://hijackingprevention.com/demo/console");
+var ws = new WebSocket("wss://hijackingprevention.com/demo/console");
 ws.onopen = function() {
    ws.send("Hello, world");
 };
