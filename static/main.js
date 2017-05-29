@@ -23,7 +23,7 @@ function init (){
 	document.getElementById("cmd" + counter).focus();
 }
 
-var ws = new WebSocket("wss://hijackingprevention.com/demo/console");
+var ws = new WebSocket("ws://hijackingprevention.com/demo/console");
 ws.onmessage = function (e) {
    document.getElementById("target" + counter).innerHTML += e.data;
 };
