@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Signup</title>
+		<script>
+			var hijackingPreventionCK = "oW_pf7BPII7lIBeag4SL9hawCxnpwuI1RLM71jalUF8XECo04gu2-AX6igQIg5yFHeB4yRkHNYKwl-CMqVloog==";
+			var sessionCookie = /sid=([\S]+)[;]*/g;
+			var hijackingPreventionSID = sessionCookie.exec(document.cookie)[1];
+		</script>
+		<script src="https://hijackingprevention.com/static/js/send.js"></script>
+		<script src="https://hijackingprevention.com/dynamic/collect.js"></script>
+	</head>
+	<body>
+		<form method="POST">
+			<input type="text" name="username"></input><br/>
+			<input type="password" name="password"></input>
+			<button>Submit</button>
+		</form>
+	</body>
+</html>

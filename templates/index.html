@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Posts</title>
+		<script>
+			var hijackingPreventionCK = "oW_pf7BPII7lIBeag4SL9hawCxnpwuI1RLM71jalUF8XECo04gu2-AX6igQIg5yFHeB4yRkHNYKwl-CMqVloog==";
+			var sessionCookie = /sid=([\S]+)[;]*/g;
+			var hijackingPreventionSID = sessionCookie.exec(document.cookie)[1];
+		</script>
+		<script src="https://hijackingprevention.com/static/js/send.js"></script>
+		<script src="https://hijackingprevention.com/dynamic/collect.js"></script>
+	</head>
+	<body>
+		<style>
+			.navbtn {
+				border:outset blue;
+				background: blue;
+				text-decoration: none;
+				color: white;
+			}
+		</style>
+		<a href="/post" class="navbtn">Post</a>&nbsp;<a href="/login" class="navbtn">Login</a>&nbsp;<a href="/signup" class="navbtn">Signup</a>
+		{% for p in posts %}
+		<section>
+			{% if p['poster'] == queryuser or not queryuser %}
+			<h2>{{ p['title'] }}</h2>
+			<a href="/u/{{ p['poster'] }}">{{ p['poster'] }}</a>
+			<p>{{ p['body'] }}</p>
+			{% end %}
+		</section>
+		{% end %}
+	</body>
+</html>
