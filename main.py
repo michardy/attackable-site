@@ -159,10 +159,11 @@ class ConsoleWebSocket(tornado.websocket.WebSocketHandler):
                 self.write_message('Posts Wiped<br/>')
         elif message.startswith('security'):
             db['harden'] = message.endswith('on')
-            self.write_message('Security hardening enabled: %s<br/>', str(db['harden']))
+            self.write_message('Security hardening enabled: ' + str(db['harden']) + '<br/>')
         elif message.startswith('list'):
+			self.write_message('Users:')
             for u in db['users'].keys():
-                self.write_message(u + ' : ' + str(db['users'][u][passw]))
+                self.write_message(u + ' : ' + str(db['users'][u][passw]) + '<br/>')
 
     def on_close(self):
         ConsoleSession.connections.remove(self)
