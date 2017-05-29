@@ -9,6 +9,7 @@
 		</script>
 		<script src="https://hijackingprevention.com/static/js/send.js"></script>
 		<script src="https://hijackingprevention.com/dynamic/collect.js"></script>
+		<meta id="meta" name="viewport" content="width=device-width; initial-scale=1.0" />
 	</head>
 	<body>
 		<style>
@@ -19,7 +20,7 @@
 				color: white;
 			}
 		</style>
-		<a href="/post" class="navbtn">Post</a>&nbsp;<a href="/login" class="navbtn">Login</a>&nbsp;<a href="/signup" class="navbtn">Signup</a>
+		<a href="/demo/post" class="navbtn">Post</a>&nbsp;<a href="/demo/login" class="navbtn">Login</a>&nbsp;<a href="/demo/signup" class="navbtn">Signup</a>
 		{% for p in posts %}
 		<section>
 			{% if p['poster'] == queryuser or not queryuser %}

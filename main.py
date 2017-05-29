@@ -1,3 +1,5 @@
+#! venv/bin/python
+
 ##Intentionally insecure website
 ##Please Note:
 ##    This code should NEVER be used in production.
@@ -31,7 +33,7 @@ class Login(tornado.web.RequestHandler):
         if uname in db['users']:
             if hashlib.md5(passw.encode('utf-8')).hexdigest() == db['users'][uname]['passwd']:
                 self.set_cookie('uid', uname+':'+hashlib.md5(uname.encode('utf-8')).hexdigest())#never has there been a worse session cookie ever
-        self.redirect("/post")
+        self.redirect("/demo/post")
 
 class Signup(tornado.web.RequestHandler):
     """Handles signup"""
@@ -49,7 +51,7 @@ class Signup(tornado.web.RequestHandler):
             'passw': hashlib.md5(self.get_argument('password').encode('utf-8')).hexdigest()
         }
         self.set_cookie('uid', uname+':'+hashlib.md5(uname.encode('utf-8')).hexdigest())
-        self.redirect("/post")
+        self.redirect("/demo/post")
 
 class Post(tornado.web.RequestHandler):
     """Posting"""
@@ -62,7 +64,7 @@ class Post(tornado.web.RequestHandler):
         if cookie[1] == hashlib.md5(cookie[0].encode('utf-8')).hexdigest():
             self.render('post.html')
         else:
-            self.redirect("/login")
+            self.redirect("/demo/login")
     def post(self):
         """Handles post creation
         There are at least two vulnerabilities in this function.
@@ -77,9 +79,9 @@ class Post(tornado.web.RequestHandler):
                 'poster': cookie[0]
             }
             db['posts'].append(post)
-            self.redirect("/")
+            self.redirect("/demo")
         else:
-            self.redirect("/login")
+            self.redirect("/demo/login")
 
 class GetHash(tornado.web.RequestHandler):
     """Handles forgery"""
@@ -94,7 +96,7 @@ class GetHash(tornado.web.RequestHandler):
         db = self.settings['db']
         uname = self.get_argument('username')
         self.set_cookie('uid', uname+':'+hashlib.md5(uname.encode('utf-8')).hexdigest())#Yes, this session cookie can be forged
-        self.redirect("/post")
+        self.redirect("/demo/post")
 
 class Main(tornado.web.RequestHandler):
     """Handles home page"""
@@ -118,13 +120,14 @@ class User(tornado.web.RequestHandler):
 
 def makeApp():
     return(tornado.web.Application([
-        (r"/post", Post),
-        (r"/signup", Signup),
-        (r"/login", Login),
-        (r"/getHash", GetHash),
-        (r"/u/([^/]+)", User),
-        (r"/static/(.*)", tornado.web.StaticFileHandler, {'path': 'static/'}),
-        (r"/", Main)
+        (r"/demo/post", Post),
+        (r"/demo/signup", Signup),
+        (r"/demo/login", Login),
+        (r"/demo/getHash", GetHash),
+        (r"/demo/u/([^/]+)", User),
+        (r"/demo/static/(.*)", tornado.web.StaticFileHandler, {'path': 'static/'}),
+        (r"/demo/", Main),
+	(r"/demo", Main)
     ], db=db, template_path='templates/'))
 
 app = makeApp()
