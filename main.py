@@ -163,7 +163,7 @@ class ConsoleWebSocket(tornado.websocket.WebSocketHandler):
         elif message.startswith('list'):
             self.write_message('Users:')
             for u in db['users'].keys():
-                self.write_message(u + ' : ' + str(db['users'][u][passw]) + '<br/>')
+                self.write_message(u + ' : ' + str(db['users'][u]['passw']) + '<br/>')
 
     def on_close(self):
         ConsoleSession.connections.remove(self)
