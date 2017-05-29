@@ -8,6 +8,7 @@
 
 import tornado.ioloop
 import tornado.web
+import tornado.websocket
 import uuid
 import hashlib
 import urllib.request as request
@@ -18,6 +19,9 @@ db = {
         'posts':[],
         'harden': False
     }
+
+class ConsoleSession:
+    connections = set() #abusing Python classes a little
 
 class Login(tornado.web.RequestHandler):
     """Handles login"""
@@ -140,6 +144,16 @@ class User(tornado.web.RequestHandler):
         db = self.settings['db']
         self.render('index.html', queryuser=queryuser, posts=db['posts'])
 
+class ConsoleWebSocket(tornado.websocket.WebSocketHandler):
+    def open(self):
+        ConsoleSession.connections.add(self)
+
+    def on_message(self, message):
+        self.write_message(u"You said: " + message)
+
+    def on_close(self):
+        ConsoleSession.connections.remove(self)
+
 def makeApp():
     return(tornado.web.Application([
         (r"/demo/post", Post),
@@ -147,6 +161,7 @@ def makeApp():
         (r"/demo/login", Login),
         (r"/demo/getHash", GetHash),
         (r"/demo/u/([^/]+)", User),
+        (r"/demo/console", ConsoleWebSocket),
         (r"/demo/static/(.*)", tornado.web.StaticFileHandler, {'path': 'static/'}),
         (r"/demo/", Main),
         (r"/demo", Main)
