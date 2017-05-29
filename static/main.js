@@ -4,6 +4,7 @@ con = document.getElementById("console");
 function evaluate(cmd){
 	if (cmd === "help") {
 		document.getElementById("target" + counter).innerHTML += 'Type "reset users" to reset the user db<br/>Type "reset posts" to reset the post db<br/>Type "security &lt;on/off&gt;" to change security hardening<br/>';
+	} else {
 		ws.send(cmd);
 	}
 }
