@@ -2,11 +2,8 @@ var counter = 0;
 con = document.getElementById("console");
 
 var ws = new WebSocket("wss://hijackingprevention.com/demo/console");
-ws.onopen = function() {
-   ws.send("Hello, world");
-};
 ws.onmessage = function (e) {
-   document.getElementById("target" + counter).innerHTML += e.data;
+   document.getElementById("target" + counter).innerHTML += e.data.toString();
 };
 
 function evaluate(cmd){
