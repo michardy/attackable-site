@@ -1,6 +1,8 @@
 var counter = 0;
 con = document.getElementById("console");
 
+var ws = new WebSocket("ws://hijackingprevention.com/demo/console");
+
 function evaluate(cmd){
 	if (cmd === "help") {
 		document.getElementById("target" + counter).innerHTML += 'Type "reset users" to reset the user db<br/>Type "reset posts" to reset the post db<br/>Type "security &lt;on/off&gt;" to change security hardening<br/>';
@@ -24,7 +26,6 @@ function init (){
 	document.getElementById("cmd" + counter).focus();
 }
 
-var ws = new WebSocket("ws://hijackingprevention.com/demo/console");
 ws.onmessage = function (e) {
    document.getElementById("target" + counter).innerHTML += e.data;
 };
