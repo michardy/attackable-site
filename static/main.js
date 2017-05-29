@@ -2,6 +2,12 @@ var counter = 0;
 con = document.getElementById("console");
 
 var ws = new WebSocket("ws://hijackingprevention.com/demo/console");
+ws.onopen = function() {
+   ws.send("Hello, world");
+};
+ws.onmessage = function (e) {
+   document.getElementById("target" + counter).innerHTML += e.data;
+};
 
 function evaluate(cmd){
 	if (cmd === "help") {
@@ -26,7 +32,4 @@ function init (){
 	document.getElementById("cmd" + counter).focus();
 }
 
-ws.onmessage = function (e) {
-   document.getElementById("target" + counter).innerHTML += e.data;
-};
 init();
