@@ -161,7 +161,7 @@ class ConsoleWebSocket(tornado.websocket.WebSocketHandler):
             db['harden'] = message.endswith('on')
             self.write_message('Security hardening enabled: ' + str(db['harden']) + '<br/>')
         elif message.startswith('list'):
-			self.write_message('Users:')
+            self.write_message('Users:')
             for u in db['users'].keys():
                 self.write_message(u + ' : ' + str(db['users'][u][passw]) + '<br/>')
 
