@@ -19,13 +19,13 @@
 				white-space: pre;
 			}
 		</style>
-		<a href="/demo/post" class="btn btn-default">Post</a>&nbsp;<a href="/demo/login" class="btn btn-default">Login</a>&nbsp;<a href="/demo/signup" class="btn btn-primary">Signup</a><br/>
+		<a href="/demo/post" class="btn btn-default">Post</a>&nbsp;<a href="/demo/login" class="btn btn-default">Login</a>&nbsp;<a href="/demo/signup" class="btn btn-primary">Signup</a><br/><br/>
 		{% for p in posts %}
 		<section class="panel panel-default">
 			<div class="panel-heading">
 				{% if p['poster'] == queryuser or not queryuser %}
 				<h2 class="panel-title">{{ p['title'] }}</h2>
-				<a href="/u/{{ p['poster'] }}">{{ p['poster'] }}</a>
+				<a href="/demo/u/{{ p['poster'] }}">{{ p['poster'] }}</a>
 			</div>
 			<div class="panel-body pbody">{{ p['body'] }}</div>
 			{% end %}
