@@ -29,7 +29,7 @@ class Login(tornado.web.RequestHandler):
         """Renders template of login page"""
         cookie = self.get_cookie('sid')
         if not cookie:
-            self.set_cookie('sid', str(uuid.uuid1()))
+            self.set_cookie('sid', str(uuid.uuid4()))
         self.render('login.html')
     def post(self):
         """Processes login requests"""
@@ -56,7 +56,7 @@ class Signup(tornado.web.RequestHandler):
         """Renders template of signup page"""
         cookie = self.get_cookie('sid')
         if not cookie:
-            self.set_cookie('sid', str(uuid.uuid1()))
+            self.set_cookie('sid', str(uuid.uuid4()))
         self.render('signup.html')
     def post(self):
         """Processes signup requests"""
@@ -78,7 +78,7 @@ class Post(tornado.web.RequestHandler):
         """Renders posting page template"""
         cookie = self.get_cookie('sid')
         if not cookie:
-            self.set_cookie('sid', str(uuid.uuid1()))
+            self.set_cookie('sid', str(uuid.uuid4()))
         cookie = self.get_cookie('uid').split(':')
         if cookie[1] == hashlib.md5(cookie[0].encode('utf-8')).hexdigest():
             self.render('post.html')
@@ -115,7 +115,7 @@ class GetHash(tornado.web.RequestHandler):
         """Renders template of page"""
         cookie = self.get_cookie('sid')
         if not cookie:
-            self.set_cookie('sid', str(uuid.uuid1()))
+            self.set_cookie('sid', str(uuid.uuid4()))
         self.render('forge.html')
     def post(self):
         """Forges session cookies"""
@@ -130,7 +130,7 @@ class Main(tornado.web.RequestHandler):
         """Renders template of home page"""
         cookie = self.get_cookie('sid')
         if not cookie:
-            self.set_cookie('sid', str(uuid.uuid1()))
+            self.set_cookie('sid', str(uuid.uuid4()))
         db = self.settings['db']
         self.render('index.html', queryuser=False, posts=db['posts'])
 
@@ -140,7 +140,7 @@ class User(tornado.web.RequestHandler):
         """Renders template of home page"""
         cookie = self.get_cookie('sid')
         if not cookie:
-            self.set_cookie('sid', str(uuid.uuid1()))
+            self.set_cookie('sid', str(uuid.uuid4()))
         db = self.settings['db']
         self.render('index.html', queryuser=queryuser, posts=db['posts'])
 
